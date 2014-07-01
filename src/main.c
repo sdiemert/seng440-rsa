@@ -46,6 +46,21 @@ int compute_lookup_table(int base, int divsor, int * powers, int powers_length, 
         return length; 
 }
 
+int modular_exp(int base, int exp, int divsor){
+        int result = 1; 
+
+        base = base % divsor;  
+
+        while(exp > 0){
+                if(exp % 2 == 1){
+                        result = (result * base) % divsor; 
+                }
+                exp >>= 1; 
+                base = (base * base) %divsor; 
+        }
+        return result; 
+}
+
 int main(int argc, char * argv[]){
         
         int r[MAX_TABLE_SIZE]; 
@@ -57,6 +72,9 @@ int main(int argc, char * argv[]){
 
         int table_size = compute_lookup_table(855, 3233, r, count, table); 
 
+        int mod_exp = modular_exp(855, value, 3233); 
+
+        printf("Modular Exp Result: %d\n", mod_exp); 
         int i = 0; 
 
         printf("---------------\n");
