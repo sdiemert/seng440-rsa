@@ -34,16 +34,27 @@ int ipow(int base, int exp){
 int compute_lookup_table(int base, int divsor, int * powers, int powers_length,   int * table){
         int i = 0; 
         int length = 0; 
-        printf("powers[length=1]: %d\n", powers[powers_length-1]); 
 
         table[length++] = base % divsor; 
 
         for(i = 1; i < 1<<powers[powers_length-1]; i<<=1){
                 table[length] = ipow(table[length-1], 2)%divsor; 
-                printf("%d\n",table[length]); 
                 length ++; 
         }
         return length; 
+}
+
+int compute_modulus_from_look_up_table(int * table, int powers_size, int * powers, int divsor){
+        int i = 0; 
+        int temp = 1; 
+        
+        temp = table[0]; 
+        
+        for(i=1; i<powers_size; i++){
+                temp *= table[powers[i]]; 
+                temp %= divsor; 
+        }
+        return temp; 
 }
 
 int modular_exp(int base, int exp, int divsor){
@@ -66,24 +77,20 @@ int main(int argc, char * argv[]){
         int r[MAX_TABLE_SIZE]; 
         int table[MAX_TABLE_SIZE]; 
 
-         int value = 2753; 
+        int exp_value = 2753; 
+        int base_value = 855; 
+        int divsor_value = 3233; 
 
-        int count = compute_powers_of_two(value, 32, r);
+        int count = compute_powers_of_two(exp_value, 32, r);
 
-        int table_size = compute_lookup_table(855, 3233, r, count, table); 
+        int table_size = compute_lookup_table(base_value, divsor_value, r, count, table); 
 
-        int mod_exp = modular_exp(855, value, 3233); 
+        int mod_exp = modular_exp(base_value, exp_value, divsor_value); 
+
+        int x = compute_modulus_from_look_up_table(table, count, r, divsor_value); 
 
         printf("Modular Exp Result: %d\n", mod_exp); 
-        int i = 0; 
+        printf("Table Result : %d\n", x); 
 
-        printf("---------------\n");
-        for(i = 0; i< table_size;i++){
-                printf("%d\n", table[i]); 
-        }       
-        printf("---------------\n");
-        for(i = 0; i< count;i++){
-                printf("%d\n", r[i]); 
-        }
         return 0; 
 }
