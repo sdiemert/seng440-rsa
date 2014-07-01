@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <math.h>
 
+//COMPILE WITH:  gcc -Wall main.c -lm
+
 #define MAX_TABLE_SIZE 64
 
 int compute_powers_of_two( int exp, int num_powers, int * result){
