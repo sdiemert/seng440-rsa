@@ -166,18 +166,17 @@ int main(int argc, char * argv[]) {
     int divisor_value = 3233; 
 
     int count = compute_powers_of_two(exp_value, 32, r);
-
     int table_size = compute_lookup_table(base_value, divisor_value, r, count, table); 
-
-    int mod_exp = modular_exp(base_value, exp_value, divisor_value); 
-
     int x = compute_modulus_from_look_up_table(table, count, r, divisor_value);
+    int mod_exp = modular_exp(base_value, exp_value, divisor_value); 
+    int mont_exp = montgomery_exp(base_value, exp_value, divisor_value);     
 
-    printf("=========UNIT TESTS========\n"); 
-    printf("Modular Exp Result: %d\n", mod_exp); 
+    printf("===============UNIT TESTS==============\n"); 
     printf("Table Result : %d\n", x); 
+    printf("Modular Exp Result: %d\n", mod_exp); 
+    printf("Montgomery Exp Result : %d\n", mont_exp);     
 
-    printf("\n\n=========RSA TESTS========\n"); 
+    printf("===============RSA TESTS===============\n"); 
     printf("Inputs: \n"); 
     
     int public_key = 17; 
@@ -210,6 +209,8 @@ int main(int argc, char * argv[]) {
     cipher_text = rsa_encrypt_montgomery_exp(plain_text, divisor, public_key); 
     new_text = rsa_decrypt_montgomery_exp(cipher_text, divisor, private_key); 
     printf("cipher_text : %d, plain_text : %d\n", cipher_text, new_text);      
+
+    printf("=======================================\n\n");
 
     return 0; 
 }
