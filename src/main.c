@@ -99,6 +99,25 @@ int montgomery_multiplication(int x, int y, int m) {
     return t;
 }
 
+// Algorithm adapted from pseudocode provided in the following research paper:
+// http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=8A3F80C41B8678E7241A0A6286ECAE56?doi=10.1.1.121.1005&rep=rep1&type=pdf
+int montgomery_exp(int x, int e, int m) {
+    int num_bits = count_num_bits(m);
+    int nr = (1 << (2 * num_bits)) % m;
+    int z = montgomery_multiplication(1, nr, m);
+    int p = montgomery_multiplication(x, nr, m);
+    int i = 0;
+
+    for(i = 0; i < num_bits; i++) {
+        if(e & (1 << i)) {
+            z = montgomery_multiplication(z, p, m);
+        }        
+        p = montgomery_multiplication(p, p, m);
+    }
+    z = montgomery_multiplication(1, z, m);
+    return z;
+}
+
 /*
 * This assumes that we need to compute the lookup
 * tables for each new call to encrpy. 
@@ -127,6 +146,14 @@ int rsa_encrypt_modular_exp(int data, int m, int public_key) {
 
 int rsa_decrypt_modular_exp(int data, int m, int private_key) {
     return modular_exp(data, private_key, m);  
+}
+
+int rsa_encrypt_montgomery_exp(int data, int m, int public_key) {
+    return montgomery_exp(data, public_key, m);  
+}
+
+int rsa_decrypt_montgomery_exp(int data, int m, int private_key) {
+    return montgomery_exp(data, private_key, m);  
 }
 
 int main(int argc, char * argv[]) {
@@ -176,7 +203,13 @@ int main(int argc, char * argv[]) {
     printf("\n---MODULAR EXPONENATION METHOD-----\n"); 
     cipher_text = rsa_encrypt_modular_exp(plain_text, divisor, public_key); 
     new_text = rsa_decrypt_modular_exp(cipher_text, divisor, private_key); 
-    printf("cipher_text : %d, plain_text : %d\n", cipher_text, new_text); 
+    printf("cipher_text : %d, plain_text : %d\n", cipher_text, new_text);
+
+    //Tests the modular exponetation method of encryption using Montgomery Multiplication.
+    printf("\n---MONTGOMERY EXPONENATION METHOD-----\n"); 
+    cipher_text = rsa_encrypt_montgomery_exp(plain_text, divisor, public_key); 
+    new_text = rsa_decrypt_montgomery_exp(cipher_text, divisor, private_key); 
+    printf("cipher_text : %d, plain_text : %d\n", cipher_text, new_text);      
 
     return 0; 
 }
