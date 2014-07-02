@@ -12,7 +12,7 @@ int compute_powers_of_two( int exp, int num_powers, int * result) {
 
     for(i = 0; i < num_powers; i ++) {
         temp = 1 << i; 
-        if((temp & exp) != 0){
+        if((temp & exp) != 0) {
                 result[j++] = i;
         }
     }
@@ -21,8 +21,8 @@ int compute_powers_of_two( int exp, int num_powers, int * result) {
 
 int ipow(int base, int exp) {
     int result = 1; 
-    while(exp){
-        if(exp & 1){
+    while(exp) {
+        if(exp & 1) {
             result *= base; 
         }
         exp >>= 1; 
@@ -38,7 +38,7 @@ int compute_lookup_table(int base, int divisor, int * powers, int powers_length,
     table[length++] = base % divisor; 
 
     for(i = 1; i < 1<<powers[powers_length-1]; i<<=1) {
-        table[length] = ipow(table[length-1], 2)%divisor; 
+        table[length] = ipow(table[length-1], 2) % divisor; 
         length ++; 
     }
     return length; 
@@ -63,7 +63,7 @@ int modular_exp(int base, int exp, int divisor) {
     base = base % divisor;  
 
     while(exp > 0) {
-        if(exp % 2 == 1){
+        if(exp % 2 == 1) {
             result = (result * base) % divisor; 
         }
         exp >>= 1; 
@@ -75,7 +75,7 @@ int modular_exp(int base, int exp, int divisor) {
 int count_num_bits(int value) {
     int count = 0;
 
-    while(value > 0){
+    while(value > 0) {
         count ++;
         value >>= 1;
     }
