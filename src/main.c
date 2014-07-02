@@ -31,20 +31,20 @@ int ipow(int base, int exp) {
     return result; 
 }
 
-int compute_lookup_table(int base, int divsor, int * powers, int powers_length,   int * table) {
+int compute_lookup_table(int base, int divisor, int * powers, int powers_length,   int * table) {
     int i = 0; 
     int length = 0; 
 
-    table[length++] = base % divsor; 
+    table[length++] = base % divisor; 
 
     for(i = 1; i < 1<<powers[powers_length-1]; i<<=1) {
-        table[length] = ipow(table[length-1], 2)%divsor; 
+        table[length] = ipow(table[length-1], 2)%divisor; 
         length ++; 
     }
     return length; 
 }
 
-int compute_modulus_from_look_up_table(int * table, int powers_size, int * powers, int divsor) {
+int compute_modulus_from_look_up_table(int * table, int powers_size, int * powers, int divisor) {
     int i = 0; 
     int temp = 1; 
     
@@ -52,22 +52,22 @@ int compute_modulus_from_look_up_table(int * table, int powers_size, int * power
     
     for(i=1; i<powers_size; i++) {
         temp *= table[powers[i]]; 
-        temp %= divsor; 
+        temp %= divisor; 
     }
     return temp; 
 }
 
-int modular_exp(int base, int exp, int divsor) {
+int modular_exp(int base, int exp, int divisor) {
     int result = 1; 
 
-    base = base % divsor;  
+    base = base % divisor;  
 
     while(exp > 0) {
         if(exp % 2 == 1){
-            result = (result * base) % divsor; 
+            result = (result * base) % divisor; 
         }
         exp >>= 1; 
-        base = (base * base) % divsor; 
+        base = (base * base) % divisor; 
     }
     return result; 
 }
@@ -136,15 +136,15 @@ int main(int argc, char * argv[]) {
 
     int exp_value = 2753; 
     int base_value = 855; 
-    int divsor_value = 3233; 
+    int divisor_value = 3233; 
 
     int count = compute_powers_of_two(exp_value, 32, r);
 
-    int table_size = compute_lookup_table(base_value, divsor_value, r, count, table); 
+    int table_size = compute_lookup_table(base_value, divisor_value, r, count, table); 
 
-    int mod_exp = modular_exp(base_value, exp_value, divsor_value); 
+    int mod_exp = modular_exp(base_value, exp_value, divisor_value); 
 
-    int x = compute_modulus_from_look_up_table(table, count, r, divsor_value);
+    int x = compute_modulus_from_look_up_table(table, count, r, divisor_value);
 
     printf("=========UNIT TESTS========\n"); 
     printf("Modular Exp Result: %d\n", mod_exp); 
@@ -155,27 +155,27 @@ int main(int argc, char * argv[]) {
     
     int public_key = 17; 
     int private_key = 2753; 
-    int divsor = 3233; 
+    int divisor = 3233; 
     int plain_text = 123; 
     int cipher_text = 0; 
     int new_text = 0; 
 
     printf("public_key : %d\n", public_key); 
     printf("private_key : %d\n", private_key); 
-    printf("divsor : %d\n", divsor); 
+    printf("divisor : %d\n", divisor); 
     printf("plain_text : %d\n", plain_text); 
 
     //Test the lookup table method of encryption. This will recompute the 
     //lookup table for each call to the encrpyt/decrypt functions. 
     printf("\n---LOOKUP TABLE METHOD-----\n"); 
-    cipher_text = rsa_encrpyt_lookup_table(plain_text, divsor, public_key); 
-    new_text = rsa_decrypt_lookup_table(cipher_text, divsor, private_key); 
+    cipher_text = rsa_encrpyt_lookup_table(plain_text, divisor, public_key); 
+    new_text = rsa_decrypt_lookup_table(cipher_text, divisor, private_key); 
     printf("cipher_text : %d, plain_text : %d\n", cipher_text, new_text); 
 
     //Tests the modular exponetation method of encryption.
     printf("\n---MODULAR EXPONENATION METHOD-----\n"); 
-    cipher_text = rsa_encrypt_modular_exp(plain_text, divsor, public_key); 
-    new_text = rsa_decrypt_modular_exp(cipher_text, divsor, private_key); 
+    cipher_text = rsa_encrypt_modular_exp(plain_text, divisor, public_key); 
+    new_text = rsa_decrypt_modular_exp(cipher_text, divisor, private_key); 
     printf("cipher_text : %d, plain_text : %d\n", cipher_text, new_text); 
 
     return 0; 
