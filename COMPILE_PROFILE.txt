@@ -1,0 +1,85 @@
+ssh user@c66.seng.uvic.ca
+
+compile: arm-linux-gcc -static -o mod_exp.exe mod_exp.c
+
+run: qemu-arm mod_exp.prf
+
+profile: 
+arm-linux-gcc -static -o mod_exp.prf mod_exp.c -p
+gprof -b mod_exp.prf gmon.out > analysis.txt
+vi analysis.txt
+
+profile whole app:
+time ./mod_exp.prf
+
+
+
+//TODO:
+#include <sys/time.h>
+#include <sys/resource.h>
+
+typedef struct tag_time_measure
+{
+  struct timeval startTimeVal;
+  struct timeval stopTimeVal;
+
+  struct rusage startTimeUsage;
+  struct rusage stopTimeUsage;
+} time_measure;
+
+time_measure * startTimeMeasuring()
+{
+  time_measure * tu = malloc(sizeof(time_measure));
+  if(!tu)
+    exit(1);
+
+  getrusage(RUSAGE_SELF, &tu->startTimeUsage);
+  gettimeofday(&tu->startTimeVal,0);
+
+  return tu;
+}
+
+void stopTimeMeasuring(time_measure * tu)
+{
+  getrusage(RUSAGE_SELF, &tu->stopTimeUsage);
+  gettimeofday(&tu->stopTimeVal,0);
+}
+
+void printMeasuredTime(time_measure * tu)
+{
+  struct timeval elapsedVal;
+  struct timeval userVal;
+  struct timeval systemVal;
+
+  double elapsed_millis = 0.0f;
+  double user_millis = 0.0f;
+  double system_millis = 0.0f;
+
+  timersub(&tu->stopTimeVal, &tu->startTimeVal, &elapsedVal);
+  timersub(&tu->stopTimeUsage.ru_utime, &tu->startTimeUsage.ru_utime, &userVal);
+  timersub(&tu->stopTimeUsage.ru_stime, &tu->startTimeUsage.ru_stime, &systemVal);
+
+  elapsed_millis = elapsedVal.tv_sec * 1000 + (double) elapsedVal.tv_usec / 1000;
+  user_millis = userVal.tv_sec * 1000 + (double) userVal.tv_usec / 1000;
+  system_millis = systemVal.tv_sec * 1000 + (double) systemVal.tv_usec / 1000;
+
+  printf("\n\n---Program execution times in milliseconds--- \n");
+  printf("Total:\t\t %f\nUser:\t\t %f\nSystem:\t\t %f\n", elapsed_millis, user_millis, system_millis);
+}
+
+——— Usage ———
+
+int main(void)
+{
+  time_measure * tu = startTimeMeasuring();
+
+  doSomethingExpensiveHere();
+
+  stopTimeMeasuring(tu);
+
+  printMeasuredTime(tu);
+
+  free(tu);
+
+  return EXIT_SUCCESS;
+}
