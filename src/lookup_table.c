@@ -109,6 +109,6 @@ int main(int argc, char * argv[]) {
     new_text = rsa_decrypt_lookup_table(cipher_text, divisor, private_key); 
     printf("cipher_text : %d, plain_text : %d\n", cipher_text, new_text); 
 
-
-
+    
+    
 }
