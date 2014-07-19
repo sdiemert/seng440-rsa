@@ -83,3 +83,17 @@ int main(void)
 
   return EXIT_SUCCESS;
 }
+
+base:		6,404,158
+starting:	6,473,171
+optimized:	6,468,210
+
+6,525,419
+6,526,375
+6,522,219
+6,520,497
+6,516,032
+
+gcc main.c -o main
+valgrind --tool=cachegrind ./main
+cg_annotate --show=Ir cachegrind.out.42669 | grep -v "???"
