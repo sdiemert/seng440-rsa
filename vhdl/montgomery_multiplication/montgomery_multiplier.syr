@@ -1,0 +1,418 @@
+Release 13.4 - xst O.87xd (lin)
+Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
+--> 
+Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.04 secs
+ 
+--> 
+Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.04 secs
+ 
+--> 
+Reading design: montgomery_multiplier.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Parsing
+  3) HDL Elaboration
+  4) HDL Synthesis
+       4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+       5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Partition Report
+  8) Design Summary
+       8.1) Primitive and Black Box Usage
+       8.2) Device utilization summary
+       8.3) Partition Resource Summary
+       8.4) Timing Report
+            8.4.1) Clock Information
+            8.4.2) Asynchronous Control Signals Information
+            8.4.3) Timing Summary
+            8.4.4) Timing Details
+            8.4.5) Cross Clock Domains Report
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "montgomery_multiplier.prj"
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "montgomery_multiplier"
+Output Format                      : NGC
+Target Device                      : xc6slx75-3-fgg484
+
+---- Source Options
+Top Module Name                    : montgomery_multiplier
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Shift Register Extraction          : YES
+ROM Style                          : Auto
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Shift Register Minimum Size        : 2
+Use DSP Block                      : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+LUT Combining                      : Auto
+Reduce Control Sets                : Auto
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 16
+Register Duplication               : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Auto
+Use Synchronous Set                : Auto
+Use Synchronous Reset              : Auto
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Power Reduction                    : NO
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+DSP48 Utilization Ratio            : 100
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+=========================================================================
+
+INFO:Xst - Part-select index evaluated to out of bound value may lead to incorrect synthesis results; it is recommended not to use them in RTL
+
+=========================================================================
+*                          HDL Parsing                                  *
+=========================================================================
+Parsing VHDL file "/home/ggollmer/SENG440/seng440-rsa/vhdl/montgomery_multiplication/montgomery_multiplier.vhd" into library work
+Parsing entity <montgomery_multiplier>.
+Parsing architecture <Behavioral> of entity <montgomery_multiplier>.
+
+=========================================================================
+*                            HDL Elaboration                            *
+=========================================================================
+
+Elaborating entity <montgomery_multiplier> (architecture <Behavioral>) with generics from library <work>.
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Synthesizing Unit <montgomery_multiplier>.
+    Related source file is "/home/ggollmer/SENG440/seng440-rsa/vhdl/montgomery_multiplication/montgomery_multiplier.vhd".
+        BITS = 64
+WARNING:Xst:647 - Input <reset> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+    Found 64-bit register for signal <multiplicand_r>.
+    Found 64-bit register for signal <modulus_r>.
+    Found 64-bit register for signal <product_sum>.
+    Found 64-bit register for signal <product>.
+    Found 1-bit register for signal <ready>.
+    Found 64-bit register for signal <multiplier_r>.
+    Found 64-bit adder for signal <product_sum[63]_multiplicand_r[63]_add_5_OUT> created at line 64.
+    Found 64-bit adder for signal <sum_temp1[63]_mod_temp[63]_add_8_OUT> created at line 69.
+    Summary:
+	inferred   2 Adder/Subtractor(s).
+	inferred 321 D-type flip-flop(s).
+	inferred   6 Multiplexer(s).
+Unit <montgomery_multiplier> synthesized.
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Adders/Subtractors                                   : 2
+ 64-bit adder                                          : 2
+# Registers                                            : 6
+ 1-bit register                                        : 1
+ 64-bit register                                       : 5
+# Multiplexers                                         : 6
+ 1-bit 2-to-1 multiplexer                              : 2
+ 64-bit 2-to-1 multiplexer                             : 4
+# Xors                                                 : 1
+ 1-bit xor2                                            : 1
+
+=========================================================================
+INFO:Xst:1767 - HDL ADVISOR - Resource sharing has identified that some arithmetic operations in this design can share the same physical resources for reduced device utilization. For improved clock frequency you may try to disable resource sharing.
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+WARNING:Xst:1710 - FF/Latch <product_sum_63> (without init value) has a constant value of 0 in block <montgomery_multiplier>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <product_c_63> (without init value) has a constant value of 0 in block <montgomery_multiplier>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:2404 -  FFs/Latches <product_sum<63:63>> (without init value) have a constant value of 0 in block <montgomery_multiplier>.
+WARNING:Xst:2404 -  FFs/Latches <product_c<63:63>> (without init value) have a constant value of 0 in block <montgomery_multiplier>.
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# Adders/Subtractors                                   : 2
+ 64-bit adder                                          : 2
+# Registers                                            : 319
+ Flip-Flops                                            : 319
+# Multiplexers                                         : 69
+ 1-bit 2-to-1 multiplexer                              : 66
+ 64-bit 2-to-1 multiplexer                             : 3
+# Xors                                                 : 1
+ 1-bit xor2                                            : 1
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+
+Optimizing unit <montgomery_multiplier> ...
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block montgomery_multiplier, actual ratio is 1.
+FlipFlop multiplicand_r_0 has been replicated 2 time(s)
+INFO:Xst:1843 - HDL ADVISOR - FlipFlop multiplicand_r_0 connected to a primary input has been replicated
+FlipFlop multiplier_r_0 has been replicated 4 time(s)
+FlipFlop product_sum_0 has been replicated 1 time(s)
+FlipFlop setup has been replicated 1 time(s)
+
+Final Macro Processing ...
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 327
+ Flip-Flops                                            : 327
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Design Summary                             *
+=========================================================================
+
+Top Level Output File Name         : montgomery_multiplier.ngc
+
+Primitive and Black Box Usage:
+------------------------------
+# BELS                             : 587
+#      GND                         : 1
+#      INV                         : 5
+#      LUT2                        : 4
+#      LUT3                        : 108
+#      LUT4                        : 1
+#      LUT5                        : 129
+#      LUT6                        : 74
+#      MUXCY                       : 137
+#      VCC                         : 1
+#      XORCY                       : 127
+# FlipFlops/Latches                : 327
+#      FDE                         : 198
+#      FDR                         : 2
+#      FDRE                        : 127
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 258
+#      IBUF                        : 193
+#      OBUF                        : 65
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 6slx75fgg484-3 
+
+
+Slice Logic Utilization: 
+ Number of Slice Registers:             327  out of  93296     0%  
+ Number of Slice LUTs:                  321  out of  46648     0%  
+    Number used as Logic:               321  out of  46648     0%  
+
+Slice Logic Distribution: 
+ Number of LUT Flip Flop pairs used:    470
+   Number with an unused Flip Flop:     143  out of    470    30%  
+   Number with an unused LUT:           149  out of    470    31%  
+   Number of fully used LUT-FF pairs:   178  out of    470    37%  
+   Number of unique control sets:         8
+
+IO Utilization: 
+ Number of IOs:                         260
+ Number of bonded IOBs:                 259  out of    280    92%  
+
+Specific Feature Utilization:
+ Number of BUFG/BUFGCTRLs:                1  out of     16     6%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+Timing Report
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+clk                                | BUFGP                  | 327   |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -3
+
+   Minimum period: 5.796ns (Maximum Frequency: 172.544MHz)
+   Minimum input arrival time before clock: 5.679ns
+   Maximum output required time after clock: 4.934ns
+   Maximum combinational path delay: No path found
+
+Timing Details:
+---------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clk'
+  Clock period: 5.796ns (frequency: 172.544MHz)
+  Total number of paths / destination ports: 758276 / 651
+-------------------------------------------------------------------------
+Delay:               5.796ns (Levels of Logic = 12)
+  Source:            multiplier_r_49 (FF)
+  Destination:       multiplier_r_0 (FF)
+  Source Clock:      clk rising
+  Destination Clock: clk rising
+
+  Data Path: multiplier_r_49 to multiplier_r_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDE:C->Q              3   0.447   1.015  multiplier_r_49 (multiplier_r_49)
+     LUT6:I0->O            1   0.203   0.000  _n0102_wg_lut<1> (_n0102_wg_lut<1>)
+     MUXCY:S->O            1   0.172   0.000  _n0102_wg_cy<1> (_n0102_wg_cy<1>)
+     MUXCY:CI->O           1   0.019   0.000  _n0102_wg_cy<2> (_n0102_wg_cy<2>)
+     MUXCY:CI->O           1   0.019   0.000  _n0102_wg_cy<3> (_n0102_wg_cy<3>)
+     MUXCY:CI->O           1   0.019   0.000  _n0102_wg_cy<4> (_n0102_wg_cy<4>)
+     MUXCY:CI->O           1   0.019   0.000  _n0102_wg_cy<5> (_n0102_wg_cy<5>)
+     MUXCY:CI->O           1   0.019   0.000  _n0102_wg_cy<6> (_n0102_wg_cy<6>)
+     MUXCY:CI->O           1   0.019   0.000  _n0102_wg_cy<7> (_n0102_wg_cy<7>)
+     MUXCY:CI->O           1   0.019   0.000  _n0102_wg_cy<8> (_n0102_wg_cy<8>)
+     MUXCY:CI->O           1   0.019   0.000  _n0102_wg_cy<9> (_n0102_wg_cy<9>)
+     MUXCY:CI->O          69   0.258   1.672  _n0102_wg_cy<10> (_n0102)
+     INV:I->O             36   0.206   1.348  _n0116_inv1_cepot_INV_0 (_n0116_inv1_cepot)
+     FDE:CE                    0.322          multiplier_r_0
+    ----------------------------------------
+    Total                      5.796ns (1.760ns logic, 4.036ns route)
+                                       (30.4% logic, 69.6% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'clk'
+  Total number of paths / destination ports: 525 / 457
+-------------------------------------------------------------------------
+Offset:              5.679ns (Levels of Logic = 2)
+  Source:            start (PAD)
+  Destination:       product_c_0 (FF)
+  Destination Clock: clk rising
+
+  Data Path: start to product_c_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O            66   1.222   1.758  start_IBUF (start_IBUF)
+     LUT2:I0->O          259   0.203   2.066  _n00931 (_n0093)
+     FDRE:R                    0.430          product_c_0
+    ----------------------------------------
+    Total                      5.679ns (1.855ns logic, 3.824ns route)
+                                       (32.7% logic, 67.3% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'clk'
+  Total number of paths / destination ports: 64 / 64
+-------------------------------------------------------------------------
+Offset:              4.934ns (Levels of Logic = 1)
+  Source:            setup (FF)
+  Destination:       ready (PAD)
+  Source Clock:      clk rising
+
+  Data Path: setup to ready
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDR:C->Q            115   0.447   1.916  setup (setup)
+     OBUF:I->O                 2.571          ready_OBUF (ready)
+    ----------------------------------------
+    Total                      4.934ns (3.018ns logic, 1.916ns route)
+                                       (61.2% logic, 38.8% route)
+
+=========================================================================
+
+Cross Clock Domains Report:
+--------------------------
+
+Clock to Setup on destination clock clk
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+clk            |    5.796|         |         |         |
+---------------+---------+---------+---------+---------+
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 4.00 secs
+Total CPU time to Xst completion: 4.18 secs
+ 
+--> 
+
+
+Total memory usage is 131796 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :    5 (   0 filtered)
+Number of infos    :    3 (   0 filtered)
+

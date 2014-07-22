@@ -1,0 +1,10 @@
+Command line:
+   montgomery_multiplier_TB_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  40612
+
+Mon Jul 21 20:29:27 2014
+
+
+ Elaboration Time: 0.01 sec
