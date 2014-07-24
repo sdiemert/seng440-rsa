@@ -8,7 +8,7 @@ Parsing VHDL file "/home/ggollmer/SENG440/seng440-rsa/vhdl/montgomery_multiplica
 Starting static elaboration
 Completed static elaboration
 Fuse Memory Usage: 36892 KB
-Fuse CPU Usage: 930 ms
+Fuse CPU Usage: 950 ms
 Compiling package standard
 Compiling package std_logic_1164
 Compiling package std_logic_arith
@@ -20,6 +20,6 @@ Time Resolution for simulation is 1ps.
 Waiting for 1 sub-compilation(s) to finish...
 Compiled 7 VHDL Units
 Built simulation executable /home/ggollmer/SENG440/seng440-rsa/vhdl/montgomery_multiplication/montgomery_multiplier_TB_isim_beh.exe
-Fuse Memory Usage: 87932 KB
-Fuse CPU Usage: 1000 ms
-GCC CPU Usage: 250 ms
+Fuse Memory Usage: 87936 KB
+Fuse CPU Usage: 1010 ms
+GCC CPU Usage: 280 ms

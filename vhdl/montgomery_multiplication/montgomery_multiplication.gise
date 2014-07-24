@@ -38,7 +38,7 @@
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_STX" xil_pn:name="montgomery_multiplier.stx"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_REPORT" xil_pn:name="montgomery_multiplier.syr"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST" xil_pn:name="montgomery_multiplier.xst"/>
-    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="montgomery_multiplier_TB_beh.prj"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="montgomery_multiplier_TB_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="montgomery_multiplier_TB_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="montgomery_multiplier_TB_isim_beh.wdb"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="montgomery_multiplier_TB_stx_beh.prj"/>
@@ -55,7 +55,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1405999761" xil_pn:in_ck="3642436586410792802" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1405999761">
+    <transform xil_pn:end_ts="1406159835" xil_pn:in_ck="3642436586410792802" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1406159835">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="montgomer_multiplier_2.vhd"/>
@@ -74,24 +74,17 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1405999591" xil_pn:in_ck="3642436586410792802" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1405999591">
+    <transform xil_pn:end_ts="1406159839" xil_pn:in_ck="3642436586410792802" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1406159839">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForInputs"/>
-      <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="InputChanged"/>
-      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="montgomer_multiplier_2.vhd"/>
       <outfile xil_pn:name="montgomery_multiplier.vhd"/>
       <outfile xil_pn:name="montgomery_multiplier_TB.vhd"/>
     </transform>
-    <transform xil_pn:end_ts="1405999593" xil_pn:in_ck="3642436586410792802" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-8737448413273521692" xil_pn:start_ts="1405999591">
+    <transform xil_pn:end_ts="1406159840" xil_pn:in_ck="3642436586410792802" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-8737448413273521692" xil_pn:start_ts="1406159839">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForInputs"/>
-      <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="InputChanged"/>
       <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="fuse.log"/>
       <outfile xil_pn:name="isim"/>
@@ -100,12 +93,9 @@
       <outfile xil_pn:name="montgomery_multiplier_TB_isim_beh.exe"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1405999593" xil_pn:in_ck="9168942339822690747" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-3916192669610628671" xil_pn:start_ts="1405999593">
+    <transform xil_pn:end_ts="1406159841" xil_pn:in_ck="9168942339822690747" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-3916192669610628671" xil_pn:start_ts="1406159840">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForPredecessor"/>
-      <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="isim.cmd"/>
       <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="montgomery_multiplier_TB_isim_beh.wdb"/>
@@ -146,6 +136,7 @@
       <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="InputChanged"/>
       <status xil_pn:value="OutputChanged"/>
+      <status xil_pn:value="OutputRemoved"/>
       <outfile xil_pn:name="_xmsgs/xst.xmsgs"/>
       <outfile xil_pn:name="montgomery_multiplier.lso"/>
       <outfile xil_pn:name="montgomery_multiplier.ngc"/>
@@ -154,7 +145,6 @@
       <outfile xil_pn:name="montgomery_multiplier.stx"/>
       <outfile xil_pn:name="montgomery_multiplier.syr"/>
       <outfile xil_pn:name="montgomery_multiplier.xst"/>
-      <outfile xil_pn:name="montgomery_multiplier_TB_beh.prj"/>
       <outfile xil_pn:name="montgomery_multiplier_TB_stx_beh.prj"/>
       <outfile xil_pn:name="montgomery_multiplier_xst.xrpt"/>
       <outfile xil_pn:name="webtalk_pn.xml"/>
