@@ -11,8 +11,8 @@ int count_num_bits(int value) {
     return count;
 }
 
-long long int montgomery_multiplication(register long long unsigned int x, register long long unsigned int y, register long long unsigned int m) {
-    register int t = 0;
+long long int montgomery_multiplication(long long unsigned int x, long long unsigned int y, long long unsigned int m) {
+    int t = 0;
 
     //find the number of bits in the modulus operator
     int count = 0; 
@@ -24,9 +24,9 @@ long long int montgomery_multiplication(register long long unsigned int x, regis
 
     int i = count; 
     int n;
-    register int check_bit = 1;
-    register int y_mod = y & 1;
-    register int x_check;
+    int check_bit = 1;
+    int y_mod = y & 1;
+    int x_check;
 
     for(; i != 0; i--, check_bit <<= 1) {
         x_check = ((x & check_bit) != 0);

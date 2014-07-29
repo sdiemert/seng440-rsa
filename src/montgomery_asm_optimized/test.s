@@ -70,67 +70,56 @@ montgomery_multiplication:
 	orr	r3, r3, r4          @combine the two registers together for comparision
 	cmp	r3, #0              @compare values
 	bne	.L7                 @if not equal to zero, move to main loop body. 
-    mov r3, r5              @move the result of count into i, we no longer need count
-	str	r3, [fp, #-48]      @store i = count into memory
+	str	r5, [fp, #-48]      @store i = count into memory
 	mov	r3, #1              @store check_bit = 1
 	str	r3, [fp, #-40]      
 	ldr	r3, [fp, #-84]      @load y from memory we only need the ldb's
 	and	r3, r3, #1          @y_mod = y & 1
 	str	r3, [fp, #-36]      @store y_mod
-	b	.L8         
+	b	.L8                 @NOTE: this is the only call to L8
 .L10:                   @THIS SECTION DOES x_check = ((x&check_bit) != 0)
-	ldr	r3, [fp, #-40]      @load check_bit -> r3
-	mov	r1, r3              @move check_bit into r1
-	mov	r2, r1, asr #31     @shift check_bit down
+	ldr	r6, [fp, #-40]      @load check_bit -> r3
+	mov	r2, r6, asr #31     @shift check_bit down
 	sub	r4, fp, #76         @load address of x into r4
 	ldmia	r4, {r3-r4}     @load x into r3/r4, r3 has MSBs
-	and	r1, r1, r3          @check_bit & x
+	and	r1, r6, r3          @check_bit & x
 	and	r2, r2, r4
-	mov	r3, #0              @init x_check = 0, DONT CHANGE ME           
-	str	r3, [fp, #-32]
-	mov	r3, r1
-	orr	r3, r3, r2
-	cmp	r3, #0              @if x*check_bit == 0, x_check remains 0
+	mov	r6, #0              @set x_check = 0, DONT CHANGE ME           
+	str	r6, [fp, #-32]
+	orr	r1, r1, r2
+	cmp	r1, #0              @if x*check_bit == 0, x_check remains 0
 	beq	.L9                 @move to L9 to continue with x_check as 0
-	mov	r3, #1              @otherwise, set x_check = 1
-	str	r3, [fp, #-32]
+	mov	r6, #1              @otherwise, set x_check = 1
+	str	r6, [fp, #-32]
 .L9:                   @THIS SECTION DOES n=... and t=...
-	ldr	r3, [fp, #-68]      @load t -> 
-	and	r1, r3, #1          @ t & 1 -> r1
-	ldr	r2, [fp, #-32]      @ x_check -> r2
+	ldr	r7, [fp, #-68]      @load t -> r7
+	and	r1, r7, #1          @ t & 1 -> r1
 	ldr	r3, [fp, #-36]      @ y_mod -> r3
-	mul	r3, r2, r3          @ y_mod * x_check -> r3
+	mul	r3, r6, r3          @ y_mod * x_check -> r3
 	add	r3, r1, r3          @ (y_mod * x_check) + (t & 1) -> r3
 	str	r3, [fp, #-44]      @store r3 into variable n
-	ldr	r3, [fp, #-68]      @load t -> r3   
-	mov	r7, r3              @t -> r7  FIXME
-	mov	r8, r7, asr #31     @t -> r8 FIXME
-	ldr	r3, [fp, #-44]      @load n -> r3
-	mov	r4, r3, asr #31     @move n -> r4
+	mov	r8, r7, asr #31     @t>>31 -> r8
+	mov	r4, r3, asr #31     @shift value of r3 by 31 and put result into r4
 	ldr	r2, [fp, #4]        @load m -> r2
 	mul	r1, r4, r2          @m*n -> r1
 	ldr	r2, [fp, #8]        @load y -> r2
-	mul	r2, r3, r2          @y*n -> r2 
-	add	r1, r1, r2          @
+	mul	r2, r3, r2          
+	add	r1, r1, r2          
 	ldr	r2, [fp, #4]
-	umull	r5, r6, r2, r3
-	add	r1, r1, r6
-	mov	r6, r1
-	ldr	r3, [fp, #-32]
+	umull	r5, r6, r2, r3  @multiply n*m
+	add	r6, r1, r6
+	ldr	r3, [fp, #-32]      @load x_check -> r3
 	mov	r4, r3, asr #31
-	ldr	r2, [fp, #-84]
-	mul	r1, r4, r2
-	ldr	r2, [fp, #-80]
-	mul	r2, r3, r2
-	add	r1, r1, r2
-	ldr	r2, [fp, #-84]
-	umull	r9, sl, r2, r3
-	mov	r3, r9
-	mov	r4, sl
-	add	r1, r1, r4
-	mov	r4, r1
-	adds	r3, r3, r5
-	adc	r4, r4, r6
+	ldr	r2, [fp, #-84]      @load y -> r2
+	mul	r1, r4, r2          @x_check * y -> r1
+	ldr	r2, [fp, #-80]      @load msbs of y->r2
+	mul	r2, r3, r2          @x_check * y -> r2
+	add	r1, r1, r2          @combine r1 + r2 -> r1 (the result of y *x_check)
+	ldr	r2, [fp, #-84]      @load y -> r2
+	umull	r9, sl, r2, r3  
+	add	r1, r1, sl 
+	adds	r3, r9, r5
+	adc	r4, r1, r6
 	adds	r3, r3, r7
 	adc	r4, r4, r8
 	movs	r4, r4, lsr #1
@@ -143,40 +132,34 @@ montgomery_multiplication:
 	mov	r3, r3, asl #1
 	str	r3, [fp, #-40]
 .L8:                        @the part of montgomery multp routine
-	ldr	r3, [fp, #-48]      @load i into r3 
-	cmp	r3, #0              @check i != 0
+	ldr	r5, [fp, #-48]      @load i into r5
+	cmp	r5, #0              @check i != 0
                             @NOTE: this is the only call to L10
 	bne	.L10                @move to L10 if i != 0 
-	ldr	r3, [fp, #-68]
-	mov	r1, r3
-	mov	r2, r1, asr #31
-	str	r1, [fp, #-92]
-	str	r2, [fp, #-88]
-	ldr	r3, [fp, #8]
-	ldr	r2, [fp, #-88]
-	cmp	r3, r2
+	ldr	r3, [fp, #-68]      @load t -> r3
+	mov	r2, r3, asr #31     @put reuslt of t >> 31 into r2 
+	str	r3, [fp, #-92]      @store t -> -92
+	str	r2, [fp, #-88]      @store t >> 31 -> -88
+	ldr	r3, [fp, #8]        @load m->r3
+	ldr	r2, [fp, #-88]      @load t -> r2
+	cmp	r3, r2              @if m > t, move to L11 
 	bhi	.L11
-	ldr	r3, [fp, #8]
-	ldr	r9, [fp, #-88]
-	cmp	r3, r9
+	ldr	r3, [fp, #8]        @load m -> r3
+	ldr	r9, [fp, #-88]      @load t >> 31 -> r9
+	cmp	r3, r9              @if t >> 31 != m, move to L14
 	bne	.L14
-	ldr	r3, [fp, #4]
-	ldr	sl, [fp, #-92]
-	cmp	r3, sl
-	bhi	.L11
-	ldr	r3, [fp, #4]
-	ldr	r1, [fp, #-92]
-	cmp	r3, r1
+	ldr	r3, [fp, #4]        @load m -> r3
+	ldr	sl, [fp, #-92]      @load t
+	cmp	r3, sl              @compare t and m
+	bhi	.L11                @if k
 .L14:
-	ldr	r3, [fp, #-68]
-	ldr	r2, [fp, #4]
-	rsb	r3, r2, r3
-	str	r3, [fp, #-68]
+	ldr	r3, [fp, #-68]      @load t -> r3
+	ldr	r2, [fp, #4]        @load ldbs of m       
+	rsb	r3, r2, r3          @ reverse subtract (r3 - r2) t = t-m
+	str	r3, [fp, #-68]      @store value of t -> -68 
 .L11:
-	ldr	r3, [fp, #-68]
-	mov	r4, r3, asr #31
-	mov	r0, r3
-	mov	r1, r4
+	ldr	r0, [fp, #-68]      @load t->r3
+	mov	r1, r0, asr #31     @shift t >> 31 -> r4
 	sub	sp, fp, #28
 	ldmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp}
 	bx	lr
