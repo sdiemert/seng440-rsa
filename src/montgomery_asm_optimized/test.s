@@ -78,40 +78,40 @@ montgomery_multiplication:
 	and	r3, r3, #1          @y_mod = y & 1
 	str	r3, [fp, #-36]      @store y_mod
 	b	.L8         
-.L10:
-	ldr	r3, [fp, #-40]
-	mov	r1, r3
-	mov	r2, r1, asr #31
-	sub	r4, fp, #76
-	ldmia	r4, {r3-r4}
-	and	r1, r1, r3
+.L10:                   @THIS SECTION DOES x_check = ((x&check_bit) != 0)
+	ldr	r3, [fp, #-40]      @load check_bit -> r3
+	mov	r1, r3              @move check_bit into r1
+	mov	r2, r1, asr #31     @shift check_bit down
+	sub	r4, fp, #76         @load address of x into r4
+	ldmia	r4, {r3-r4}     @load x into r3/r4, r3 has MSBs
+	and	r1, r1, r3          @check_bit & x
 	and	r2, r2, r4
-	mov	r3, #0
+	mov	r3, #0              @init x_check = 0, DONT CHANGE ME           
 	str	r3, [fp, #-32]
 	mov	r3, r1
 	orr	r3, r3, r2
-	cmp	r3, #0
-	beq	.L9
-	mov	r3, #1
+	cmp	r3, #0              @if x*check_bit == 0, x_check remains 0
+	beq	.L9                 @move to L9 to continue with x_check as 0
+	mov	r3, #1              @otherwise, set x_check = 1
 	str	r3, [fp, #-32]
-.L9:
-	ldr	r3, [fp, #-68]
-	and	r1, r3, #1
-	ldr	r2, [fp, #-32]
-	ldr	r3, [fp, #-36]
-	mul	r3, r2, r3
-	add	r3, r1, r3
-	str	r3, [fp, #-44]
-	ldr	r3, [fp, #-68]
-	mov	r7, r3
-	mov	r8, r7, asr #31
-	ldr	r3, [fp, #-44]
-	mov	r4, r3, asr #31
-	ldr	r2, [fp, #4]
-	mul	r1, r4, r2
-	ldr	r2, [fp, #8]
-	mul	r2, r3, r2
-	add	r1, r1, r2
+.L9:                   @THIS SECTION DOES n=... and t=...
+	ldr	r3, [fp, #-68]      @load t -> 
+	and	r1, r3, #1          @ t & 1 -> r1
+	ldr	r2, [fp, #-32]      @ x_check -> r2
+	ldr	r3, [fp, #-36]      @ y_mod -> r3
+	mul	r3, r2, r3          @ y_mod * x_check -> r3
+	add	r3, r1, r3          @ (y_mod * x_check) + (t & 1) -> r3
+	str	r3, [fp, #-44]      @store r3 into variable n
+	ldr	r3, [fp, #-68]      @load t -> r3   
+	mov	r7, r3              @t -> r7  FIXME
+	mov	r8, r7, asr #31     @t -> r8 FIXME
+	ldr	r3, [fp, #-44]      @load n -> r3
+	mov	r4, r3, asr #31     @move n -> r4
+	ldr	r2, [fp, #4]        @load m -> r2
+	mul	r1, r4, r2          @m*n -> r1
+	ldr	r2, [fp, #8]        @load y -> r2
+	mul	r2, r3, r2          @y*n -> r2 
+	add	r1, r1, r2          @
 	ldr	r2, [fp, #4]
 	umull	r5, r6, r2, r3
 	add	r1, r1, r6
@@ -143,9 +143,10 @@ montgomery_multiplication:
 	mov	r3, r3, asl #1
 	str	r3, [fp, #-40]
 .L8:                        @the part of montgomery multp routine
-	ldr	r3, [fp, #-48]
-	cmp	r3, #0
-	bne	.L10
+	ldr	r3, [fp, #-48]      @load i into r3 
+	cmp	r3, #0              @check i != 0
+                            @NOTE: this is the only call to L10
+	bne	.L10                @move to L10 if i != 0 
 	ldr	r3, [fp, #-68]
 	mov	r1, r3
 	mov	r2, r1, asr #31
