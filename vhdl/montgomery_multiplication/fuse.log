@@ -1,0 +1,25 @@
+Running: /project/CMC/tools/Xilinx-13.4/13.4/ISE_DS/ISE/bin/lin/unwrapped/fuse -intstyle ise -incremental -lib secureip -o /home/ggollmer/SENG440/seng440-rsa/vhdl/montgomery_multiplication/montgomery_multiplier_TB_isim_beh.exe -prj /home/ggollmer/SENG440/seng440-rsa/vhdl/montgomery_multiplication/montgomery_multiplier_TB_beh.prj work.montgomery_multiplier_TB 
+ISim O.87xd (signature 0x8ddf5b5d)
+Number of CPUs detected in this system: 4
+Turning on mult-threading, number of parallel sub-compilation jobs: 8 
+Determining compilation order of HDL files
+Parsing VHDL file "/home/ggollmer/SENG440/seng440-rsa/vhdl/montgomery_multiplication/montgomery_multiplier.vhd" into library work
+Parsing VHDL file "/home/ggollmer/SENG440/seng440-rsa/vhdl/montgomery_multiplication/montgomery_multiplier_TB.vhd" into library work
+Starting static elaboration
+Completed static elaboration
+Fuse Memory Usage: 36892 KB
+Fuse CPU Usage: 950 ms
+Compiling package standard
+Compiling package std_logic_1164
+Compiling package std_logic_arith
+Compiling package std_logic_unsigned
+Compiling architecture behavioral of entity montgomery_multiplier [\montgomery_multiplier(64)\]
+WARNING:Simulator:752 - Running 32 bit ISIM on 64 bit Linux
+Compiling architecture behavior of entity montgomery_multiplier_tb
+Time Resolution for simulation is 1ps.
+Waiting for 1 sub-compilation(s) to finish...
+Compiled 7 VHDL Units
+Built simulation executable /home/ggollmer/SENG440/seng440-rsa/vhdl/montgomery_multiplication/montgomery_multiplier_TB_isim_beh.exe
+Fuse Memory Usage: 87936 KB
+Fuse CPU Usage: 1010 ms
+GCC CPU Usage: 280 ms

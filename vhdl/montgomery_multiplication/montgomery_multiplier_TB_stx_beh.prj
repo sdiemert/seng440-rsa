@@ -1,0 +1,2 @@
+vhdl isim_temp "montgomery_multiplier.vhd"
+vhdl isim_temp "montgomery_multiplier_TB.vhd"
