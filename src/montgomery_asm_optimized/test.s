@@ -78,7 +78,7 @@ montgomery_multiplication:
 	str	r3, [fp, #-36]      @store y_mod
 	b	.L8                 @NOTE: this is the only call to L8
 .L10:                   @THIS SECTION DOES x_check = ((x&check_bit) != 0)
-	ldr	r6, [fp, #-40]      @load check_bit -> r3
+	ldr	r6, [fp, #-40]      @load check_bit -> r6
 	mov	r2, r6, asr #31     @shift check_bit down
 	sub	r4, fp, #76         @load address of x into r4
 	ldmia	r4, {r3-r4}     @load x into r3/r4, r3 has MSBs
@@ -136,21 +136,16 @@ montgomery_multiplication:
 	cmp	r5, #0              @check i != 0
                             @NOTE: this is the only call to L10
 	bne	.L10                @move to L10 if i != 0 
-	ldr	r3, [fp, #-68]      @load t -> r3
-	mov	r2, r3, asr #31     @put reuslt of t >> 31 into r2 
-	str	r3, [fp, #-92]      @store t -> -92
+	ldr	r6, [fp, #-68]      @load t -> r3
+	mov	r2, r6, asr #31     @put reuslt of t >> 31 into r2 
 	str	r2, [fp, #-88]      @store t >> 31 -> -88
 	ldr	r3, [fp, #8]        @load m->r3
-	ldr	r2, [fp, #-88]      @load t -> r2
 	cmp	r3, r2              @if m > t, move to L11 
 	bhi	.L11
-	ldr	r3, [fp, #8]        @load m -> r3
-	ldr	r9, [fp, #-88]      @load t >> 31 -> r9
-	cmp	r3, r9              @if t >> 31 != m, move to L14
+	cmp	r3, r2              @if t >> 31 != m, move to L14
 	bne	.L14
 	ldr	r3, [fp, #4]        @load m -> r3
-	ldr	sl, [fp, #-92]      @load t
-	cmp	r3, sl              @compare t and m
+	cmp	r3, r6              @compare t and m
 	bhi	.L11                @if k
 .L14:
 	ldr	r3, [fp, #-68]      @load t -> r3
