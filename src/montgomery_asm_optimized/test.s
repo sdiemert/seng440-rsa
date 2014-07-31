@@ -134,7 +134,6 @@ montgomery_multiplication:
 .L8:                        @the part of montgomery multp routine
 	ldr	r5, [fp, #-48]      @load i into r5
 	cmp	r5, #0              @check i != 0
-                            @NOTE: this is the only call to L10
 	bne	.L10                @move to L10 if i != 0 
 	ldr	r6, [fp, #-68]      @load t -> r3
 	mov	r2, r6, asr #31     @put reuslt of t >> 31 into r2 

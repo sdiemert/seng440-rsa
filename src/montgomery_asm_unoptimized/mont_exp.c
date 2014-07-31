@@ -1,22 +1,21 @@
 #include <stdio.h>
 #include <math.h>
 
-int count_num_bits(int value) {
-    int count = 0;
-
-    while(value > 0) {
-        count ++;
-        value >>= 1;
-    }
-    return count;
-}
-
-int montgomery_multiplication(int x, int y, int m) {
+int montgomery_multiplication(long long int x, long long int y, long long int m) {
     int t = 0;
     int i = 0;
     int n;
-    int iteration_limit = count_num_bits(m);
     int check_bit = 1;
+    long long int temp = m;  
+    int count = 0;
+
+    while(temp > 0) {
+        count ++;
+        temp >>= 1;
+    }
+
+    int iteration_limit = count; 
+    
 
     for(i = 0; i < iteration_limit; i++, check_bit <<= 1) {         
         n = (t & 1) + ((x & check_bit) == check_bit) * (y & 1);              
