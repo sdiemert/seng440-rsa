@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -lib "secureip" -o "/home/ggollmer/SENG440/seng440-rsa/vhdl/montgomery_multiplication/montgomery_multiplier_TB_isim_beh.exe" -prj "/home/ggollmer/SENG440/seng440-rsa/vhdl/montgomery_multiplication/montgomery_multiplier_TB_beh.prj" "work.montgomery_multiplier_TB" 
